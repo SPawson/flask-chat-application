@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, redirect, render_template, request, session, url_for
 
 app = Flask(__name__)#Creating an instance of the Flask class
-app.secret_key ="randomstring12" # uses secret key for encryption of session vars
+app.secret_key = os.getenv("SECRET", "randomstring123") # uses secret key for encryption of session vars
 
 
 messages = [] #creates empty list
@@ -42,7 +42,8 @@ def user(username):
     chat_messages = messages)
     #Displays all messages in list after heading
     
-host = os.getenv('IP')
-port = int(os.getenv('PORT'))
+host = os.getenv('IP', '0.0.0.0')
+port = int(os.getenv('PORT', '5000')) #secondary param will act as default
+#no need to setup in config file for heroku
 
-app.run(host, port, debug = True)
+app.run(host, port, debug = False)
